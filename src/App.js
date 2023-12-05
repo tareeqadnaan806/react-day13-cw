@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+// App.js
+import React, { useState } from "react";
+import Quiz from "./components/Quiz";
+import LandingPage from "./components/LandingPage";
 
 function App() {
+  const [quizStarted, setQuizStarted] = useState(false);
+  const [quizParams, setQuizParams] = useState({
+    category: "",
+    difficulty: "",
+    numQuestions: 10,
+  });
+
+  const handleStartQuiz = (category, difficulty, numQuestions) => {
+    setQuizParams({
+      category,
+      difficulty,
+      numQuestions: parseInt(numQuestions, 10),
+    });
+    setQuizStarted(true);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {quizStarted ? (
+        <Quiz {...quizParams} />
+      ) : (
+        <LandingPage onStartQuiz={handleStartQuiz} />
+      )}
     </div>
   );
 }
